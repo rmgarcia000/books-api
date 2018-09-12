@@ -53,9 +53,9 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-		</dependency>
+		</dependency>		
 
-		<!-- Tools -->
+		<!-- Tools -->		
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
