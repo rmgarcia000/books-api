@@ -1,38 +1,13 @@
-package br.com.books.api.entity;
+package br.com.books.api.controller.request;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class BookRequest {
 
-import br.com.books.api.controller.request.BookRequest;
-
-@Entity
-@Table(name = "tbl_book")
-public class Book {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String tittle;
 	private String description;
 	private String isbn;
 	private String languagem;
 
-	public Book() {
-		
-	}
-	
-	public Book(BookRequest book) {
-		super();
-		this.id = book.getId();
-		this.tittle = book.getTittle();
-		this.description = book.getDescription();
-		this.isbn = book.getIsbn();
-		this.languagem = book.getLanguagem();
-	}	
-	
 	public Integer getId() {
 		return id;
 	}
@@ -72,5 +47,4 @@ public class Book {
 	public void setLanguagem(String languagem) {
 		this.languagem = languagem;
 	}
-
 }
