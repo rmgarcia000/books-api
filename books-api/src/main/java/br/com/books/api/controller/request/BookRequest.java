@@ -2,19 +2,10 @@ package br.com.books.api.controller.request;
 
 public class BookRequest {
 
-	private Integer id;
 	private String tittle;
 	private String description;
 	private String isbn;
 	private String languagem;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getTittle() {
 		return tittle;

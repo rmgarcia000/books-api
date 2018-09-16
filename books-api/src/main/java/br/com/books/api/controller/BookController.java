@@ -1,5 +1,6 @@
 package br.com.books.api.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.books.api.builder.HttpToJava;
 import br.com.books.api.controller.request.BookRequest;
 import br.com.books.api.entity.Book;
 import br.com.books.api.service.BookService;
@@ -31,7 +33,16 @@ public class BookController {
 	
 	@GetMapping()
 	public ResponseEntity<List<Book>> findAll() {
-		return ResponseEntity.ok(bookService.findAll());
+		HttpToJava converter = new HttpToJava();
+		try {
+			converter.htmlToJava();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ResponseEntity.ok(converter.getBooks());		
+		//return ResponseEntity.ok(bookService.findAll());
 	}
 	
 	@PostMapping
