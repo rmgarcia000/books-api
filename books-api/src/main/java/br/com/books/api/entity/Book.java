@@ -1,14 +1,10 @@
 package br.com.books.api.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import br.com.books.api.controller.request.BookRequest;
 
@@ -20,11 +16,9 @@ public class Book {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String tittle;
-	private StringBuilder description;
+	private String description;
 	private String isbn;
 	private String language;
-	@Transient
-	public List<String> urls = new ArrayList<>();
 
 	public Book() {
 		
@@ -33,7 +27,7 @@ public class Book {
 	public Book(BookRequest book) {
 		super();
 		this.tittle = book.getTittle();
-		this.description = new StringBuilder(book.getDescription());
+		this.description = book.getDescription();
 		this.isbn = book.getIsbn();
 		this.language = book.getLanguagem();
 	}	
@@ -42,9 +36,8 @@ public class Book {
 		return id;
 	}
 
-	public Book setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
-		return this;
 	}
 
 	public String getTittle() {
@@ -56,15 +49,16 @@ public class Book {
 	}
 
 	public String getDescription() {
-		return description.toString();
-	}
-	
-	public StringBuilder getBuilderDescription() {
 		return description;
 	}
+	
+	public void concatDescription(String desc) {
+		this.description = (this.description !=null)? this.description + desc : desc; 
+	}
 
+	
 	public void setDescription(String description) {
-		this.description = new StringBuilder(description);
+		this.description = description;
 	}
 
 	public String getIsbn() {

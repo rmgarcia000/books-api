@@ -33,8 +33,12 @@ public class BookServiceImpl implements BookService {
 	
 	public Book create(BookRequest bookRequest) {
 		Book book = new Book(bookRequest);
-		return bookRepository.save(book);
+		return create(book);
 	}
+	
+	public Book create(Book book) {
+		return bookRepository.save(book);
+	}	
 	
 	public Book update(Book book) {
 		if(book.getId() == null || book.getId() == 0) {

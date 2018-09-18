@@ -13,6 +13,8 @@ public interface BookService {
 	
 	public Book create(BookRequest bookRequest);
 	
+	Book create(Book book);
+	
 	public Book update(Book book);
 	
 	void delete(int id);
