@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.books.api.controller.request.BookRequest;
 import br.com.books.api.entity.Book;
+import br.com.books.api.exception.BusinessException;
 import br.com.books.api.repository.BookRepository;
 import br.com.books.api.service.BookService;
 
@@ -17,11 +18,11 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
-	public Book getById(int id) {
+	public Book getById(int id) throws BusinessException {
 		Optional<Book> book =  bookRepository.findById(id);
 		
 		if(!book.isPresent()) {
-			//TO DO implements Exception and Exception handler
+			throw new BusinessException("Book not found.");
 		}
 		
 		return book.get();
@@ -40,9 +41,9 @@ public class BookServiceImpl implements BookService {
 		return bookRepository.save(book);
 	}	
 	
-	public Book update(Book book) {
+	public Book update(Book book) throws BusinessException {
 		if(book.getId() == null || book.getId() == 0) {
-			//TO DO implements Exception and Exception handler
+			throw new BusinessException("Book.id is required for this operation.");
 		}
 		return bookRepository.save(book);
 	}

@@ -17,6 +17,7 @@ import br.com.books.api.builder.HttpBookSniffer;
 import br.com.books.api.builder.HttpIsbnSniffer;
 import br.com.books.api.controller.request.BookRequest;
 import br.com.books.api.entity.Book;
+import br.com.books.api.exception.BusinessException;
 import br.com.books.api.service.BookService;
 
 @RestController
@@ -27,7 +28,7 @@ public class BookController {
 	private BookService bookService;
 
 	@GetMapping("{id}")
-	public ResponseEntity<Book> getById(@PathVariable int id) {
+	public ResponseEntity<Book> getById(@PathVariable int id) throws BusinessException {
 		return ResponseEntity.ok(bookService.getById(id));
 	}
 
@@ -42,10 +43,8 @@ public class BookController {
 			for (Book book : isbnSniffer.getBooks()) {
 				bookService.create(book);
 			}
-			//return ResponseEntity.ok(isbnSniffer.getBooks());
 		}
 
-		//return null;
 		return ResponseEntity.ok(bookService.findAll());
 	}
 
@@ -60,7 +59,7 @@ public class BookController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Book> update(@RequestBody Book book) {
+	public ResponseEntity<Book> update(@RequestBody Book book) throws BusinessException {	
 		return ResponseEntity.ok(bookService.update(book));
 	}
 
