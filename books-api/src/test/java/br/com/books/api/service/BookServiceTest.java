@@ -50,7 +50,7 @@ public class BookServiceTest {
 	
 	@Test(expected = BusinessException.class)
 	public void bookNotFoundTest() throws BusinessException {
-		Mockito.when(bookRepositoryMock.findById(1)).thenReturn(Optional.of(null));
+		Mockito.when(bookRepositoryMock.findById(1)).thenReturn(Optional.empty());
 
 		bookService.getById(1);
 	}	
