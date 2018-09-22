@@ -12,13 +12,12 @@ import br.com.books.api.entity.Book;
 
 public class HttpBookSniffer {
 
-	
 	public HttpBookSniffer(String url) {
 		this.url = url;
 	}
-	
+
 	private String url;
-	
+
 	private List<BookInSearch> books = new ArrayList<>();
 
 	public List<BookInSearch> getBooks() {
@@ -41,41 +40,47 @@ public class HttpBookSniffer {
 		}
 		return books.get(books.size() - 1).getBook();
 	}
-	
+
 	private HttpBookSniffer addUrlForCuurentBook(String url) {
 		if (books.isEmpty()) {
 			generateNewBook();
 		}
 		books.get(books.size() - 1).addUrl(url);
-		
-		return this;
-	}	
 
-	public HttpBookSniffer searchBooks() throws Exception {
+		return this;
+	}
+
+	public HttpBookSniffer searchBooksByUrl() throws Exception {
 		Document doc = Jsoup.connect(this.url).get();
+		searchByJsoupDocument(doc);
+
+		return this;
+	}
+
+	public void searchByJsoupDocument(Document doc) {
 		Elements newsHeadlines = doc.select("article");
 		Element article = newsHeadlines.first();
+		if (article != null && article.getAllElements() != null) {
+			article.getAllElements().forEach(el -> {
+				String currentElement = el.toString();
 
-		article.getAllElements().forEach(el -> {
-			String currentElement = el.toString();
+				if (currentElement.startsWith("<h2") && currentElement.endsWith("</h2>")) {
+					generateNewBook();
+					generateTittle(el);
 
-			if (currentElement.startsWith("<h2") && currentElement.endsWith("</h2>")) {
-				generateNewBook();
-				generateTittle(el);
-				
-			} else if (currentElement.startsWith("<div class=\"event-lang\"") && currentElement.endsWith("</div>")) {
-				generateLanguage(el);
-				
-			} else if (currentElement.startsWith("<a href=\"") && currentElement.endsWith("</a>")) {
-				keepUrls(el);
-				
-			} else if (currentElement.startsWith("<p>") && currentElement.endsWith("</p>")) {
-				generateDescription(el);
-			}
+				} else if (currentElement.startsWith("<div class=\"event-lang\"")
+						&& currentElement.endsWith("</div>")) {
+					generateLanguage(el);
 
-		});
-		
-		return this;
+				} else if (currentElement.startsWith("<a href=\"") && currentElement.endsWith("</a>")) {
+					keepUrls(el);
+
+				} else if (currentElement.startsWith("<p>") && currentElement.endsWith("</p>")) {
+					generateDescription(el);
+				}
+
+			});
+		}
 	}
 
 	private void generateDescription(Element el) {
@@ -99,5 +104,4 @@ public class HttpBookSniffer {
 		getCurrentBook().setTittle(el.select("h2").text().trim());
 	}
 
-	
 }

@@ -36,7 +36,7 @@ public class BookController {
 	public ResponseEntity<List<Book>> searchBooks() throws Exception {
 		HttpBookSniffer converter = new HttpBookSniffer("https://kotlinlang.org/docs/books.html");
 		
-		if (!converter.searchBooks().getBooks().isEmpty()) {
+		if (!converter.searchBooksByUrl().getBooks().isEmpty()) {
 			HttpIsbnSniffer isbnSniffer = new HttpIsbnSniffer(converter.getBooks());
 			isbnSniffer.findAllIsbnByUrl();
 

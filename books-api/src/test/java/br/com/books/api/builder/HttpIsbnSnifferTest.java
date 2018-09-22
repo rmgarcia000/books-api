@@ -23,7 +23,7 @@ public class HttpIsbnSnifferTest {
 		Assert.assertEquals("Unavailable", isbn);
 	}
 	
-	private String pageWithOutIsbn = "<html>"
+	private final String pageWithOutIsbn = "<html>"
 			+ "			<head>"
 			+ "				<title>Tittle</title>"
 			+ "			</head>"
