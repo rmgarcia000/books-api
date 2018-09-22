@@ -38,7 +38,6 @@ public class HttpIsbnSniffer {
 	public void findAllIsbnByUrl() {
 		for (BookInSearch bookIS : books) {
 			searchOne(bookIS);
-
 		}
 	}
 	
@@ -61,18 +60,22 @@ public class HttpIsbnSniffer {
 	private String sniffByUrl(String url) {
 		try {
 			Document doc = Jsoup.connect(url.trim()).get();
-			Elements elements = doc.select(this.initElement);
-
-			String isbn = recursivePatternFind(elements);
-
-			if (isbn == null) {
-				return this.notFindIsbn;
-			}
-
-			return isbn;
+			return searchOnDoc(doc);
 		} catch (Exception ex) {
 			return this.notFindIsbn;
 		}
+	}
+	
+	public String searchOnDoc(Document doc) {
+		Elements elements = doc.select(this.initElement);
+
+		String isbn = recursivePatternFind(elements);
+
+		if (isbn == null) {
+			return this.notFindIsbn;
+		}
+
+		return isbn;
 	}
 	
 	private String recursivePatternFind(Elements listOfElements) {
